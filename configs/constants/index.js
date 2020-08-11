@@ -10,6 +10,7 @@ export const JWT_EXPIRES = +process.env.JWT_EXPIRES;
 export const JWT_SECRET = process.env.JWT_SECRET;
 
 export const ErrorResponses = {
-  loginError: 'Invalid email/password supplied',
-  serverError: 'Unexpected internal errors',
+  loginError: 'Invalid email/password supplied.',
+  serverError: 'Unexpected internal errors.',
+  unathorized: 'User need to log in first.',
 };
