@@ -1,5 +1,6 @@
 import { Role } from '../../models/roles';
 import { User } from '../../models/user';
+import { bcryptHash } from '../bcrypt';
 
 const roles = [
   { id: 1, role_name: 'admin' },
@@ -16,9 +17,10 @@ export const initialCreate = async () => {
     }
     const user = await User.findOne({ where: { email: 'jetbaseadmin@jetbase.com' } });
     if (!user) {
+      const password = await bcryptHash('jetbaseadmin');
       await User.create({
         email: 'jetbaseadmin@jetbase.com',
-        password: 'jetbaseadmin',
+        password,
         first_name: 'Admin',
         last_name: 'JetBase',
         roleId: 1,
