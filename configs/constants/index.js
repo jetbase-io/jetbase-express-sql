@@ -13,4 +13,5 @@ export const ErrorResponses = {
   loginError: 'Invalid email/password supplied.',
   serverError: 'Unexpected internal errors.',
   unathorized: 'User need to log in first.',
+  notPermission: 'User does not have permission of admin role.',
 };

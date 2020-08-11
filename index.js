@@ -4,7 +4,8 @@ import cors from 'cors';
 import { sequelize } from './db';
 import { PORT } from './configs/constants';
 import { initialCreate } from './utils/db';
-import authRouter from './routes/auth';
+import authRoute from './routes/auth';
+import usersRoute from './routes/users';
 import { errorHandler } from './middlewares/error-handler';
 
 dotenv.config();
@@ -15,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/login', authRouter);
+app.use('/api/v1/login', authRoute);
+app.use('/api/v1/users', usersRoute);
 
 app.use(errorHandler);
 
