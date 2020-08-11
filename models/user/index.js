@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../../db';
+import { Role } from '../roles';
 
 export const User = sequelize.define('user', {
   id: {
@@ -26,3 +27,5 @@ export const User = sequelize.define('user', {
     allowNull: false,
   },
 });
+
+User.belongsTo(Role);

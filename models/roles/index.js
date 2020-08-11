@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../../db';
-import { User } from '../user';
 
 export const Role = sequelize.define('role', {
   id: {
@@ -14,5 +13,3 @@ export const Role = sequelize.define('role', {
     unique: true,
   },
 });
-
-Role.hasMany(User);

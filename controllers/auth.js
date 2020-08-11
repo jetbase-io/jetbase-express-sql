@@ -9,7 +9,7 @@ import { jwtSign } from '../utils/jwt';
 
 export const login = asyncHandler(async (req, res, next) => {
   const { email: emailBody, password } = req.body;
-  const responseUser = await User.findOne({ where: { email: emailBody } });
+  const responseUser = await User.findOne({ where: { email: emailBody }, include: [{ model: Role }] });
   if (!responseUser) {
     return next(new ErrorResponse(ErrorResponses.loginError, 400));
   }
@@ -18,12 +18,7 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!compare) {
     return next(new ErrorResponse(ErrorResponses.loginError, 400));
   }
-  const responseRole = await Role.findByPk(user.roleId);
-  if (!responseRole) {
-    return next(new ErrorResponse(ErrorResponses.loginError, 400));
-  }
-  const role = responseRole.get({ plain: true });
-  const { id, email } = user;
+  const { id, email, role } = user;
   const jwtPayload = { id, email, role: role.role_name };
   const token = jwtSign(jwtPayload);
   const now = new Date().getTime();

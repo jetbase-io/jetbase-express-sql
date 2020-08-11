@@ -13,21 +13,17 @@ export const protect = asyncHandler(async (req, res, next) => {
   if (!token) {
     return next(new ErrorResponse(ErrorResponses.unathorized, 401));
   }
+  let decoded;
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const responseUser = await User.findByPk(decoded.id);
-    if (!responseUser) {
-      return next(new ErrorResponse(ErrorResponses.unathorized, 401));
-    }
-    const user = responseUser.get({ plain: true });
-    const responseRole = await Role.findByPk(user.roleId);
-    if (!responseRole) {
-      return next(new ErrorResponse(ErrorResponses.unathorized, 401));
-    }
-    const role = responseRole.get({ plain: true });
-    req.user = { ...user, role: role.role_name };
-    next();
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
     return next(new ErrorResponse(ErrorResponses.unathorized, 401));
   }
+  const responseUser = await User.findByPk(decoded.id, { include: [{ model: Role }] });
+  if (!responseUser) {
+    return next(new ErrorResponse(ErrorResponses.loginError, 400));
+  }
+  const user = responseUser.get({ plain: true });
+  req.user = { ...user, role: user.role.role_name };
+  next();
 });
