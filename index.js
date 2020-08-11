@@ -1,12 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { sequelize } from './db';
 import { PORT } from './configs/constants';
 import { initialCreate } from './utils/db';
 import authRoute from './routes/auth';
 import usersRoute from './routes/users';
 import { errorHandler } from './middlewares/error-handler';
+import { sequelize } from './configs/db';
 
 dotenv.config();
 

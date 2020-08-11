@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../../db';
+import { sequelize } from '../../configs/db';
 
 export const Role = sequelize.define('role', {
   id: {
