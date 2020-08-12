@@ -19,4 +19,6 @@ export const ErrorResponses = {
   notMatchPasswords: 'Password and password confirmation do not match',
   isRequire: (name) => `${name} is require`,
   userNotFound: 'User not found',
+  invalidEmail: 'Invalid email type',
+  updatePermission: 'Not permission for update this user.',
 };

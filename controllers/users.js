@@ -51,4 +51,19 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   if (!responseUser) {
     return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
   }
+  if (req.user.roleId === 2) {
+    req.body.role_id = undefined;
+  }
+  if (req.user.roleId === 2 && responseUser.id !== req.user.id) {
+    return next(new ErrorResponse(ErrorResponses.updatePermission, 403));
+  }
+  const { last_name, first_name, email, role_id: roleId } = req.body;
+  if (email) {
+    const candidate = await User.findOne({ where: { email } });
+    if (candidate) {
+      return next(new ErrorResponse(ErrorResponses.emailExist), 400);
+    }
+  }
+  await User.update({ last_name, first_name, email, roleId }, { where: { id: responseUser.id } });
+  res.json({ success: true });
 });

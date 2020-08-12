@@ -10,6 +10,8 @@ export const createUserPayload = [
   check('password_confirmation', ErrorResponses.isRequire('Password confirmation')).not().isEmpty(),
 ];
 
+export const updateUserPayload = [check('email', ErrorResponses.invalidEmail).optional().isEmail()];
+
 export const checkUsersValid = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
