@@ -28,3 +28,19 @@ export const createUser = asyncHandler(async (req, res, next) => {
   });
   res.json({ id: newUser.id });
 });
+
+export const getCurrentUser = asyncHandler(async (req, res, next) => {
+  const { roleId: role_id, email, id, first_name, last_name } = req.user;
+  res.json({ id, role_id, email, first_name, last_name });
+});
+
+export const getUserById = asyncHandler(async (req, res, next) => {
+  const { user_id } = req.params;
+  const responseUser = await User.findByPk(user_id);
+  if (!responseUser) {
+    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
+  }
+  const user = responseUser.get({ plain: true });
+  const { id, first_name, last_name, roleId: role_id, email } = user;
+  res.json({ id, email, last_name, first_name, role_id });
+});
