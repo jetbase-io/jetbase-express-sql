@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import db from '../index';
 
-export const Role = db.sequelize.define('role', {
+export const Role = db.sequelize.define('roles', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,

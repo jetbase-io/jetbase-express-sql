@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import db from '../index';
 import { Role } from '../roles';
 
-export const User = db.sequelize.define('user', {
+export const User = db.sequelize.define('users', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

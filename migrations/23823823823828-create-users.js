@@ -1,20 +1,6 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('role', {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-      },
-      role_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-    });
-    await queryInterface.createTable('user', {
+    await queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -40,12 +26,12 @@ module.exports = {
       },
     });
     queryInterface.addColumn(
-      'user', // name of Source model
+      'users', // name of Source model
       'roleId', // name of the key we're adding
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'role', // name of Target model
+          model: 'roles', // name of Target model
           key: 'id', // key in Target model that we're referencing
         },
       }
@@ -53,7 +39,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user');
-    await queryInterface.dropTable('role');
+    await queryInterface.dropTable('users');
   },
 };

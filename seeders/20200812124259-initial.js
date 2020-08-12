@@ -8,7 +8,7 @@ const roles = [
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     for (const role of roles) {
-      await queryInterface.bulkInsert('role', [
+      await queryInterface.bulkInsert('roles', [
         {
           id: role.id,
           role_name: role.role_name,
@@ -19,7 +19,7 @@ module.exports = {
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash('jetbaseadmin', salt);
 
-    await await queryInterface.bulkInsert('user', [
+    await await queryInterface.bulkInsert('users', [
       {
         email: 'jetbaseadmin@jetbase.com',
         password,
@@ -31,7 +31,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('user', null, {});
-    await queryInterface.bulkDelete('role', null, {});
+    await queryInterface.bulkDelete('users', null, {});
+    await queryInterface.bulkDelete('roles', null, {});
   },
 };
