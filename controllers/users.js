@@ -36,26 +36,15 @@ export const getCurrentUser = asyncHandler(async (req, res, next) => {
 });
 
 export const getUserById = asyncHandler(async (req, res, next) => {
-  const { user_id } = req.params;
-  const responseUser = await User.findByPk(user_id);
-  if (!responseUser) {
-    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
-  }
-  const user = responseUser.get({ plain: true });
-  const { id, first_name, last_name, roleId: role_id, email } = user;
+  const { id, first_name, last_name, roleId: role_id, email } = req.responseUser;
   res.json({ id, email, last_name, first_name, role_id });
 });
 
 export const updateUser = asyncHandler(async (req, res, next) => {
-  const { user_id } = req.params;
-  const responseUser = await User.findByPk(user_id);
-  if (!responseUser) {
-    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
-  }
   if (req.user.roleId === 2) {
     req.body.role_id = undefined;
   }
-  if (req.user.roleId === 2 && responseUser.id !== req.user.id) {
+  if (req.user.roleId === 2 && req.responseUser.id !== req.user.id) {
     return next(new ErrorResponse(ErrorResponses.updatePermission, 403));
   }
   const { last_name, first_name, email, role_id: roleId } = req.body;
@@ -65,38 +54,28 @@ export const updateUser = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(ErrorResponses.emailExist), 400);
     }
   }
-  await User.update({ last_name, first_name, email, roleId }, { where: { id: responseUser.id } });
+  await User.update({ last_name, first_name, email, roleId }, { where: { id: req.responseUser.id } });
   res.json({ success: true });
 });
 
 export const deleteUser = asyncHandler(async (req, res, next) => {
-  const { user_id } = req.params;
-  const responseUser = await User.findByPk(user_id);
-  if (!responseUser) {
-    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
-  }
-  await responseUser.destroy();
+  await req.responseUser.destroy();
   res.json({ success: true });
 });
 
 export const updateUserPassword = asyncHandler(async (req, res, next) => {
-  const { user_id } = req.params;
-  const responseUser = await User.findByPk(user_id);
-  if (!responseUser) {
-    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
-  }
   const { old_password, new_password } = req.body;
   if (req.user.roleId === 1) {
     const password = await bcryptHash(new_password);
-    await User.update({ password }, { where: { id: responseUser.id } });
+    await User.update({ password }, { where: { id: req.responseUser.id } });
   } else {
     if (!old_password) {
       return next(new ErrorResponse(ErrorResponses.oldPasswordEmpty, 400));
     }
-    if (req.user.id !== responseUser.id) {
+    if (req.user.id !== req.responseUser.id) {
       return next(new ErrorResponse(ErrorResponses.updatePasswordPermission, 403));
     }
-    const compare = await bcrypt.compare(old_password, responseUser.password);
+    const compare = await bcrypt.compare(old_password, req.responseUser.password);
     if (!compare) {
       return next(new ErrorResponse(ErrorResponses.loginError, 400));
     }

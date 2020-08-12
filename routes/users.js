@@ -11,14 +11,15 @@ import {
   updateUserPassword,
 } from '../controllers/users';
 import { createUserPayload, checkUsersValid, updateUserPayload } from '../middlewares/validators/users';
+import { getUserByIdMdw } from '../middlewares/getUserById';
 const router = express.Router();
 
 router.get('/', protect, authorize('admin'), getRegisteredUsers);
 router.post('/', protect, authorize('admin'), createUserPayload, checkUsersValid, createUser);
 router.get('/current', protect, getCurrentUser);
-router.get('/:user_id', protect, getUserById);
-router.put('/:user_id', protect, updateUserPayload, checkUsersValid, updateUser);
-router.put('/:user_id/password', protect, updateUserPassword);
-router.delete('/:user_id', protect, authorize('admin'), deleteUser);
+router.get('/:user_id', protect, getUserByIdMdw, getUserById);
+router.put('/:user_id', protect, updateUserPayload, checkUsersValid, getUserByIdMdw, updateUser);
+router.put('/:user_id/password', protect, getUserByIdMdw, updateUserPassword);
+router.delete('/:user_id', protect, authorize('admin'), getUserByIdMdw, deleteUser);
 
 export default router;
