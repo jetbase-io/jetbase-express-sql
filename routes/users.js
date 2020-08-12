@@ -8,6 +8,7 @@ import {
   getUserById,
   updateUser,
   deleteUser,
+  updateUserPassword,
 } from '../controllers/users';
 import { createUserPayload, checkUsersValid, updateUserPayload } from '../middlewares/validators/users';
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post('/', protect, authorize('admin'), createUserPayload, checkUsersValid
 router.get('/current', protect, getCurrentUser);
 router.get('/:user_id', protect, getUserById);
 router.put('/:user_id', protect, updateUserPayload, checkUsersValid, updateUser);
+router.put('/:user_id/password', protect, updateUserPassword);
 router.delete('/:user_id', protect, authorize('admin'), deleteUser);
 
 export default router;

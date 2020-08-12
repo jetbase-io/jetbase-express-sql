@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import bcrypt from 'bcrypt';
 import { User } from '../models/user';
 import ErrorResponse from '../utils/errors';
 import { ErrorResponses } from '../configs/constants';
@@ -76,4 +77,29 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   }
   await responseUser.destroy();
   res.json({ success: true });
+});
+
+export const updateUserPassword = asyncHandler(async (req, res, next) => {
+  const { user_id } = req.params;
+  const responseUser = await User.findByPk(user_id);
+  if (!responseUser) {
+    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
+  }
+  const { old_password, new_password } = req.body;
+  if (req.user.roleId === 1) {
+    const password = await bcryptHash(new_password);
+    await User.update({ password }, { where: { id: responseUser.id } });
+  } else {
+    if (!old_password) {
+      return next(new ErrorResponse(ErrorResponses.oldPasswordEmpty, 400));
+    }
+    if (req.user.id !== responseUser.id) {
+      return next(new ErrorResponse(ErrorResponses.updatePasswordPermission, 403));
+    }
+    const compare = await bcrypt.compare(old_password, responseUser.password);
+    if (!compare) {
+      return next(new ErrorResponse(ErrorResponses.loginError, 400));
+    }
+  }
+  res.json({ message: 'Updated password successfully.' });
 });
