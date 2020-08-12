@@ -3,10 +3,16 @@ import { getPermissionRoles } from '../../utils/roles';
 
 dotenv.config();
 
-export const DB_USER = process.env.DB_USER;
-export const DB_PASSWORD = process.env.DB_PASSWORD;
-export const DB_NAME = process.env.DB_NAME;
+export const DB_USER_DEV = process.env.DB_USER_DEV;
+export const DB_PASSWORD_DEV = process.env.DB_PASSWORD_DEV;
+export const DB_NAME_DEV = process.env.DB_NAME_DEV;
+
+export const DB_NAME_TEST = process.env.DB_NAME_TEST;
+export const DB_PASSWORD_TEST = process.env.DB_PASSWORD_TEST;
+export const DB_USER_TEST = process.env.DB_USER_TEST;
+
 export const PORT = process.env.PORT;
+
 export const JWT_EXPIRES = +process.env.JWT_EXPIRES;
 export const JWT_SECRET = process.env.JWT_SECRET;
 

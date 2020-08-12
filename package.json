@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js --delay 2"
+    "dev": "nodemon --exec babel-node index.js --delay 2",
+    "seeds": "sequelize-cli db:seed:all",
+    "seeds:undo":"sequelize-cli db:seed:undo",
+    "migrate": "sequelize-cli db:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "-": "0.0.1",
+    "D": "^1.0.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
