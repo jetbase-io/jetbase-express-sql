@@ -2,11 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { PORT } from './configs/constants';
-import { initialCreate } from './utils/db';
 import authRoute from './routes/auth';
 import usersRoute from './routes/users';
 import { errorHandler } from './middlewares/error-handler';
-import { sequelize } from './configs/db';
+import db from './models/index';
 
 dotenv.config();
 
@@ -25,8 +24,8 @@ const runApp = () => console.log(`App run on port ${PORT}`);
 
 const init = async () => {
   try {
-    await sequelize.sync();
-    await initialCreate();
+    await db.sequelize.sync();
+    // await initialCreate();
     app.listen(PORT, runApp);
   } catch (error) {
     console.log(error);
