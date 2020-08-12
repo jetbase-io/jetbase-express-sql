@@ -24,6 +24,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      updatedAt: Sequelize.DATE,
+      createdAt: Sequelize.DATE,
     });
     queryInterface.addColumn(
       'users', // name of Source model

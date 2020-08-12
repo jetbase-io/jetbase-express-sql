@@ -13,6 +13,8 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      updatedAt: Sequelize.DATE,
+      createdAt: Sequelize.DATE,
     });
   },
 

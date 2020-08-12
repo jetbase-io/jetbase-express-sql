@@ -12,6 +12,8 @@ module.exports = {
         {
           id: role.id,
           role_name: role.role_name,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ]);
     }
@@ -26,6 +28,8 @@ module.exports = {
         first_name: 'Admin',
         last_name: 'JetBase',
         roleId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
   },
