@@ -4,9 +4,12 @@ import { User } from '../models/user';
 import ErrorResponse from '../utils/errors';
 import { ErrorResponses } from '../configs/constants';
 import { bcryptHash } from '../utils/bcrypt';
+import { findAllUsersQuery } from '../utils/db';
 
 export const getRegisteredUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.findAll({ attributes: ['id', 'first_name', 'last_name', 'email', ['roleId', 'role_id']] });
+  const { email, limit, offset } = req.query;
+  const query = findAllUsersQuery({ email, limit, offset });
+  const users = await User.findAll(query);
   res.json({ items: users, count: users.length });
 });
 

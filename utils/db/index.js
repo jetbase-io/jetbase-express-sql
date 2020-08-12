@@ -1,6 +1,9 @@
 import { Role } from '../../models/roles';
 import { User } from '../../models/user';
 import { bcryptHash } from '../bcrypt';
+const Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
 
 const roles = [
   { id: 1, role_name: 'admin' },
@@ -30,4 +33,25 @@ export const initialCreate = async () => {
     console.log(error);
     process.exit(1);
   }
+};
+
+export const findAllUsersQuery = ({ email, offset, limit }) => {
+  let query = { attributes: ['id', 'first_name', 'last_name', 'email', ['roleId', 'role_id']] };
+  if (email) {
+    query = {
+      ...query,
+      where: {
+        email: {
+          [Op.like]: `%${email}%`,
+        },
+      },
+    };
+  }
+  if (limit) {
+    query = { ...query, limit };
+  }
+  if (offset) {
+    query = { ...query, offset };
+  }
+  return query;
 };
