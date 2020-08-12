@@ -44,3 +44,11 @@ export const getUserById = asyncHandler(async (req, res, next) => {
   const { id, first_name, last_name, roleId: role_id, email } = user;
   res.json({ id, email, last_name, first_name, role_id });
 });
+
+export const updateUser = asyncHandler(async (req, res, next) => {
+  const { user_id } = req.params;
+  const responseUser = await User.findByPk(user_id);
+  if (!responseUser) {
+    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
+  }
+});
