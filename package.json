@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec babel-node index.js --delay 2",
     "seeds": "sequelize-cli db:seed:all",
-    "seeds:undo":"sequelize-cli db:seed:undo",
-    "migrate": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo"
+    "seeds:undo": "sequelize-cli db:seed:undo",
+    "migrate": "sequelize-cli db:migrate --to create-roles.js && sequelize-cli db:migrate --to create-users.js",
+    "migrate:undo": "sequelize-cli db:migrate:undo:all --to create-users.js && sequelize-cli db:migrate:undo:all --to create-roles.js"
   },
   "keywords": [],
   "author": "",
