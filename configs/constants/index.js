@@ -14,4 +14,7 @@ export const ErrorResponses = {
   serverError: 'Unexpected internal errors.',
   unathorized: 'User need to log in first.',
   notPermission: 'User does not have permission of admin role.',
+  emailExist: 'This email has already exist.',
+  notMatchPasswords: 'Password and password confirmation do not match',
+  isRequire: (name) => `${name} is require`,
 };
