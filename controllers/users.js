@@ -67,3 +67,13 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   await User.update({ last_name, first_name, email, roleId }, { where: { id: responseUser.id } });
   res.json({ success: true });
 });
+
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const { user_id } = req.params;
+  const responseUser = await User.findByPk(user_id);
+  if (!responseUser) {
+    return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
+  }
+  await responseUser.destroy();
+  res.json({ success: true });
+});
