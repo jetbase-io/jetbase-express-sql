@@ -6,7 +6,7 @@ const roles = [
 ];
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     for (const role of roles) {
       await queryInterface.bulkInsert('roles', [
         {
@@ -43,7 +43,7 @@ module.exports = {
     ]);
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('users', null, {});
     await queryInterface.bulkDelete('roles', null, {});
   },
