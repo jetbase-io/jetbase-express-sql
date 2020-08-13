@@ -42,13 +42,13 @@ describe('USER', async () => {
     it('response 200, if user exist if request from admin user', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users`)
+            .get('/api/v1/users')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               assert.strictEqual(res.status, 200);
@@ -60,13 +60,13 @@ describe('USER', async () => {
     it('response 403, if user exist if request from user role user', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users`)
+            .get('/api/v1/users')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               assert.strictEqual(res.status, 403);
@@ -77,7 +77,7 @@ describe('USER', async () => {
     it('response 401, if user not log in', (done) => {
       chai
         .request(app)
-        .get(`/api/v1/users`)
+        .get('/api/v1/users')
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
           done();
@@ -89,13 +89,13 @@ describe('USER', async () => {
     it('response 200, if user logged in', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users/current`)
+            .get('/api/v1/users/current')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               assert.strictEqual(res.status, 200);
@@ -106,7 +106,7 @@ describe('USER', async () => {
     it('response 401, if user not logged', (done) => {
       chai
         .request(app)
-        .get(`/api/v1/users/current`)
+        .get('/api/v1/users/current')
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
           done();
@@ -118,13 +118,13 @@ describe('USER', async () => {
     it('response 200, if admin logged in', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/2`)
+            .put('/api/v1/users/2')
             .send({ first_name: 'updated name' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -136,13 +136,13 @@ describe('USER', async () => {
     it('response 400, updated email field which already exist', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/2`)
+            .put('/api/v1/users/2')
             .send({ email: 'jetbaseuser@jetbase.com' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -154,13 +154,13 @@ describe('USER', async () => {
     it('response 403, if user updated not self', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/1`)
+            .put('/api/v1/users/1')
             .send({ last_name: 'jetbaseu' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -172,7 +172,7 @@ describe('USER', async () => {
     it('response 401, if user not logged', (done) => {
       chai
         .request(app)
-        .put(`/api/v1/users/2/password`)
+        .put('/api/v1/users/2/password')
         .send({ first_name: 'updated name' })
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
@@ -185,13 +185,13 @@ describe('USER', async () => {
     it('response 400, if user update password and old password is blank', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/2/password`)
+            .put('/api/v1/users/2/password')
             .send({ new_password: 'jetbaseadmin' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -204,13 +204,13 @@ describe('USER', async () => {
     it('response 403, if user update not self password', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/1/password`)
+            .put('/api/v1/users/1/password')
             .send({ new_password: 'jetbaseadmin', old_password: 'jetbaseadmin' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -223,13 +223,13 @@ describe('USER', async () => {
     it('response 200, if admin update password', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/2/password`)
+            .put('/api/v1/users/2/password')
             .send({ new_password: 'jetbaseadmin' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -242,7 +242,7 @@ describe('USER', async () => {
     it('response 401, if user not logged in', (done) => {
       chai
         .request(app)
-        .put(`/api/v1/users/2`)
+        .put('/api/v1/users/2')
         .send({ new_password: 'jetbaseadmin' })
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
@@ -253,13 +253,13 @@ describe('USER', async () => {
     it('response 400, if user update password and old password is not a valid', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .put(`/api/v1/users/2/password`)
+            .put('/api/v1/users/2/password')
             .send({ new_password: 'jetbaseadmin', old_password: 'asdasdasd' })
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -274,13 +274,13 @@ describe('USER', async () => {
     it('response 200, if admin logged in', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users/1`)
+            .get('/api/v1/users/1')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               assert.strictEqual(res.status, 200);
@@ -308,7 +308,7 @@ describe('USER', async () => {
     it('response 401, if user not logged', (done) => {
       chai
         .request(app)
-        .get(`/api/v1/users/1`)
+        .get('/api/v1/users/1')
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
           done();
@@ -320,13 +320,13 @@ describe('USER', async () => {
     it('response 200, if request from admin and new user is valid', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .post(`/api/v1/users`)
+            .post('/api/v1/users')
             .send(validNewUser)
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -338,13 +338,13 @@ describe('USER', async () => {
     it('response 400, if request from admin and new user is invalid', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .post(`/api/v1/users`)
+            .post('/api/v1/users')
             .send(invalidNewUser)
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -356,13 +356,13 @@ describe('USER', async () => {
     it('response 400, if request from admin and password not match', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .post(`/api/v1/users`)
+            .post('/api/v1/users')
             .send(notMatchPasswordUser)
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -374,13 +374,13 @@ describe('USER', async () => {
     it('response 400, if request from admin and email is exist', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .post(`/api/v1/users`)
+            .post('/api/v1/users')
             .send(admin)
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -392,13 +392,13 @@ describe('USER', async () => {
     it('response 403, if request from user and new user is valid', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(user)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .post(`/api/v1/users`)
+            .post('/api/v1/users')
             .send(validNewUser)
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
@@ -411,7 +411,7 @@ describe('USER', async () => {
     it('response 401, if user not a login', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/users`)
+        .post('/api/v1/users')
         .send(validNewUser)
         .end((_, res) => {
           assert.strictEqual(res.status, 401);
@@ -424,13 +424,13 @@ describe('USER', async () => {
     it('response 200, if request from admin and user exist in DB', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users`)
+            .get('/api/v1/users')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               const { id } = res.body.items[res.body.items.length - 1];
@@ -449,13 +449,13 @@ describe('USER', async () => {
     it('response 401, if user not a login', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users`)
+            .get('/api/v1/users')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               const { id } = res.body.items[res.body.items.length - 1];
@@ -473,13 +473,13 @@ describe('USER', async () => {
     it('response 404, if user not found', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .delete(`/api/v1/users/123891`)
+            .delete('/api/v1/users/123891')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               assert.strictEqual(404, res.status);
@@ -491,13 +491,13 @@ describe('USER', async () => {
     it('response 403, if request from user and user exist in DB', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(admin)
         .end((_, res) => {
           const { token } = res.body;
           chai
             .request(app)
-            .get(`/api/v1/users`)
+            .get('/api/v1/users')
             .set('Authorization', `Bearer ${token}`)
             .end((_, res) => {
               const { id } = res.body.items[res.body.items.length - 1];

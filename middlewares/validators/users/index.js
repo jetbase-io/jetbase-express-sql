@@ -15,7 +15,7 @@ export const updateUserPayload = [check('email', ErrorResponses.invalidEmail).op
 export const checkUsersValid = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const msg = errors.array().map((err) => err.msg)[0];
+    const msg = errors.array().map(err => err.msg)[0];
     return next(new ErrorResponse(msg, 400));
   }
   next();

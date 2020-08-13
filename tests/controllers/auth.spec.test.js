@@ -3,7 +3,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 
-const assert = chai.assert;
+const { assert } = chai;
 chai.use(chaiHttp);
 
 const validUser = {
@@ -26,7 +26,7 @@ describe('AUTH', () => {
     it('response 200, if user exist ', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(validUser)
         .end((_, res) => {
           assert.strictEqual(res.status, 200);
@@ -36,7 +36,7 @@ describe('AUTH', () => {
     it('response 400, if invalid email ', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(invalidUserEmail)
         .end((_, res) => {
           assert.strictEqual(res.status, 400);
@@ -46,7 +46,7 @@ describe('AUTH', () => {
     it('response 400, if invalid password ', (done) => {
       chai
         .request(app)
-        .post(`/api/v1/login`)
+        .post('/api/v1/login')
         .send(invalidUserPassword)
         .end((_, res) => {
           assert.strictEqual(res.status, 400);

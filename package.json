@@ -10,7 +10,8 @@
     "seeds:undo": "sequelize-cli db:seed:undo",
     "migrate": "sequelize-cli db:migrate --to create-roles.js && sequelize-cli db:migrate --to create-users.js",
     "migrate:undo": "sequelize-cli db:migrate:undo:all --to create-users.js && sequelize-cli db:migrate:undo:all --to create-roles.js",
-    "test": "NODE_ENV=test mocha --require  @babel/register tests/*/*.spec.test.js --timeout 700000 --exit"
+    "test": "NODE_ENV=test mocha --require  @babel/register tests/*/*.spec.test.js --timeout 700000 --exit",
+    "lint": "./node_modules/.bin/eslint . --fix"
   },
   "keywords": [],
   "author": "",
@@ -43,6 +44,11 @@
     "chai-http": "^4.3.0",
     "mocha": "^8.1.1",
     "nodemon": "^2.0.4",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.5"
   }
 }
