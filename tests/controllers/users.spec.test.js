@@ -85,6 +85,81 @@ describe('USER', async () => {
     });
   });
 
+  describe('/GET Get current user', () => {
+    it('response 200, if user logged in', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .get(`/api/v1/users/current`)
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 200);
+              done();
+            });
+        });
+    });
+    it('response 401, if user not logged', (done) => {
+      chai
+        .request(app)
+        .get(`/api/v1/users/current`)
+        .end((_, res) => {
+          assert.strictEqual(res.status, 401);
+          done();
+        });
+    });
+  });
+
+  describe('/GET Get user by id', () => {
+    it('response 200, if admin logged in', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .get(`/api/v1/users/1`)
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 200);
+              done();
+            });
+        });
+    });
+    // it('response 403, if user logged in', (done) => {
+    //   chai
+    //     .request(app)
+    //     .post(`/api/v1/login`)
+    //     .send(user)
+    //     .end((_, res) => {
+    //       const { token } = res.body;
+    //       chai
+    //         .request(app)
+    //         .get(`/api/v1/users/1`)
+    //         .set('Authorization', `Bearer ${token}`)
+    //         .end((_, res) => {
+    //           assert.strictEqual(res.status, 403);
+    //           done();
+    //         });
+    //     });
+    // });
+    it('response 401, if user not logged', (done) => {
+      chai
+        .request(app)
+        .get(`/api/v1/users/1`)
+        .end((_, res) => {
+          assert.strictEqual(res.status, 401);
+          done();
+        });
+    });
+  });
+
   describe('/POST Create new user', () => {
     it('response 200, if request from admin and new user is valid', (done) => {
       chai
