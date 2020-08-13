@@ -25,7 +25,6 @@ const runApp = () => console.log(`App run on port ${PORT}`);
 const init = async () => {
   try {
     await db.sequelize.sync();
-    // await initialCreate();
     app.listen(PORT, runApp);
   } catch (error) {
     console.log(error);
