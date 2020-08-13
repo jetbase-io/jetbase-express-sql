@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js --delay 2"
+    "dev": "nodemon --exec babel-node index.js --delay 2",
+    "seeds": "sequelize-cli db:seed:all",
+    "seeds:undo": "sequelize-cli db:seed:undo",
+    "migrate": "sequelize-cli db:migrate --to create-roles.js && sequelize-cli db:migrate --to create-users.js",
+    "migrate:undo": "sequelize-cli db:migrate:undo:all --to create-users.js && sequelize-cli db:migrate:undo:all --to create-roles.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "-": "0.0.1",
+    "D": "^1.0.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -22,13 +28,14 @@
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4",
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
     "@babel/node": "^7.10.5",
     "@babel/plugin-transform-regenerator": "^7.10.4",
     "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
-    "@babel/register": "^7.10.5"
+    "@babel/register": "^7.10.5",
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.2.0"
   }
 }
