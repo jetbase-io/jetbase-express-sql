@@ -11,8 +11,8 @@ env:
 before_script:
   - npm install
   - psql -c 'create database jetbase_test;' -U postgres
+script:
   - npm run migrate
   - npm run seeds-test
-script:
   - npm run lint
   - npm run test
