@@ -29,7 +29,6 @@ describe('AUTH', () => {
         .post('/api/v1/login')
         .send(validUser)
         .end((_, res) => {
-          console.log(res.body);
           assert.strictEqual(res.status, 200);
           done();
         });
