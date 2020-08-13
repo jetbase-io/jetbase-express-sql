@@ -114,6 +114,162 @@ describe('USER', async () => {
     });
   });
 
+  describe('/PUT update user fields', () => {
+    it('response 200, if admin logged in', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/2`)
+            .send({ first_name: 'updated name' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 200);
+              done();
+            });
+        });
+    });
+    it('response 400, updated email field which already exist', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/2`)
+            .send({ email: 'jetbaseuser@jetbase.com' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 400);
+              done();
+            });
+        });
+    });
+    it('response 403, if user updated not self', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/1`)
+            .send({ last_name: 'jetbaseu' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 403);
+              done();
+            });
+        });
+    });
+    it('response 401, if user not logged', (done) => {
+      chai
+        .request(app)
+        .put(`/api/v1/users/2/password`)
+        .send({ first_name: 'updated name' })
+        .end((_, res) => {
+          assert.strictEqual(res.status, 401);
+          done();
+        });
+    });
+  });
+
+  describe('/PUT update admin passwords', () => {
+    it('response 400, if user update password and old password is blank', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/2/password`)
+            .send({ new_password: 'jetbaseadmin' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 400);
+              done();
+            });
+        });
+    });
+
+    it('response 403, if user update not self password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/1/password`)
+            .send({ new_password: 'jetbaseadmin', old_password: 'jetbaseadmin' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 403);
+              done();
+            });
+        });
+    });
+
+    it('response 200, if admin update password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/2/password`)
+            .send({ new_password: 'jetbaseadmin' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 200);
+              done();
+            });
+        });
+    });
+
+    it('response 401, if user not logged in', (done) => {
+      chai
+        .request(app)
+        .put(`/api/v1/users/2`)
+        .send({ new_password: 'jetbaseadmin' })
+        .end((_, res) => {
+          assert.strictEqual(res.status, 401);
+          done();
+        });
+    });
+
+    it('response 400, if user update password and old password is not a valid', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(user)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .put(`/api/v1/users/2/password`)
+            .send({ new_password: 'jetbaseadmin', old_password: 'asdasdasd' })
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(res.status, 400);
+              done();
+            });
+        });
+    });
+  });
+
   describe('/GET Get user by id', () => {
     it('response 200, if admin logged in', (done) => {
       chai

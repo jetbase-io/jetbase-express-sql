@@ -54,7 +54,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   if (email) {
     const candidate = await User.findOne({ where: { email } });
     if (candidate) {
-      return next(new ErrorResponse(ErrorResponses.emailExist), 400);
+      return next(new ErrorResponse(ErrorResponses.emailExist, 400));
     }
   }
   await User.update({ last_name, first_name, email, roleId }, { where: { id: req.responseUser.id } });
