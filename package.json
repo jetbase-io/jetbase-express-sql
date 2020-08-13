@@ -8,7 +8,8 @@
     "seeds": "sequelize-cli db:seed:all",
     "seeds:undo": "sequelize-cli db:seed:undo",
     "migrate": "sequelize-cli db:migrate --to create-roles.js && sequelize-cli db:migrate --to create-users.js",
-    "migrate:undo": "sequelize-cli db:migrate:undo:all --to create-users.js && sequelize-cli db:migrate:undo:all --to create-roles.js"
+    "migrate:undo": "sequelize-cli db:migrate:undo:all --to create-users.js && sequelize-cli db:migrate:undo:all --to create-roles.js",
+    "test": "NODE_ENV=test mocha --require  @babel/register tests/*/*.spec.test.js"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,9 @@
     "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.1.1",
     "nodemon": "^2.0.4",
     "sequelize-cli": "^6.2.0"
   }

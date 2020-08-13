@@ -21,12 +21,14 @@ app.use('/api/v1/users', usersRoute);
 app.use(errorHandler);
 
 const runApp = () => console.log(`App run on port ${PORT}`);
+export default app;
 
 const init = async () => {
   try {
     await db.sequelize.sync();
     // await initialCreate();
     app.listen(PORT, runApp);
+    return app;
   } catch (error) {
     console.log(error);
     process.exit(1);
