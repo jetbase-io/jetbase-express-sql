@@ -11,10 +11,8 @@ env:
 before_script:
   - npm install
   - psql -c 'create database CRM_test;' -U postgres
-  - npm run migrate:undo
   - npm run migrate
   - npm run seeds-test
 script:
   - npm run lint
   - npm run test
-  - npm run migrate:undo
