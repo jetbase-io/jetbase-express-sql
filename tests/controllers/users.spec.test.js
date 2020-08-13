@@ -214,5 +214,79 @@ describe('USER', async () => {
             });
         });
     });
+
+    it('response 401, if user not a login', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .get(`/api/v1/users`)
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              const { id } = res.body.items[res.body.items.length - 1];
+              chai
+                .request(app)
+                .delete(`/api/v1/users/${id}`)
+                .end((_, res) => {
+                  assert.strictEqual(401, res.status);
+                  done();
+                });
+            });
+        });
+    });
+
+    it('response 404, if user not found', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .delete(`/api/v1/users/123891`)
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              assert.strictEqual(404, res.status);
+              done();
+            });
+        });
+    });
+
+    it('response 403, if request from user and user exist in DB', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/login`)
+        .send(admin)
+        .end((_, res) => {
+          const { token } = res.body;
+          chai
+            .request(app)
+            .get(`/api/v1/users`)
+            .set('Authorization', `Bearer ${token}`)
+            .end((_, res) => {
+              const { id } = res.body.items[res.body.items.length - 1];
+              chai
+                .request(app)
+                .post('/api/v1/login')
+                .send(user)
+                .end((_, res) => {
+                  const { token: userToken } = res.body;
+                  chai
+                    .request(app)
+                    .delete(`/api/v1/users/${id}`)
+                    .set('Authorization', `Bearer ${userToken}`)
+                    .end((_, res) => {
+                      assert.strictEqual(403, res.status);
+                      done();
+                    });
+                });
+            });
+        });
+    });
   });
 });
