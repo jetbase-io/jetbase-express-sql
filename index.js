@@ -26,7 +26,6 @@ export default app;
 const init = async () => {
   try {
     await db.sequelize.sync();
-    // await initialCreate();
     app.listen(PORT, runApp);
     return app;
   } catch (error) {
