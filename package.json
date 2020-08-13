@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec babel-node index.js --delay 2",
+    "start": "babel-node index.js",
     "seeds-dev": "sequelize-cli db:seed --seed dev.js",
     "seeds-test": "sequelize-cli db:seed --seed test.js",
     "seeds:undo": "sequelize-cli db:seed:undo",
