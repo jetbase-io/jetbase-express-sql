@@ -6,12 +6,12 @@ Swagger API: https://raw.githubusercontent.com/jetbase-io/jetbase-swagger/master
 
 # Running express server in docker
 
-In order to start rails api inside of docker run the following commands
+In order to start express.js api inside of docker run the following commands
 
 ```
 docker-compose build
 ```
-_this command will build a docker image of rails app_
+_this command will build a docker image of node.js app_
 
 _next step we should create database_
 
@@ -23,4 +23,4 @@ _this command will create DB, runn migrations_ and create first admin user
 ```
 docker-compose up
 ```
-_this command will start rails app in docker_
+_this command will start node.js app in docker_
