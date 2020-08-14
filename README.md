@@ -8,21 +8,34 @@ Swagger API: https://raw.githubusercontent.com/jetbase-io/jetbase-swagger/master
 
 In order to start express.js api inside of docker run the following commands
 
+### Build a docker image of node.js app
+
 ```
 docker-compose build
 ```
-_this command will build a docker image of node.js app_
 
-
-_next step we should create database_
+### Create DB, run migrations and create first admin user
 
 ```
 docker-compose run jetbase-express-sql npm run migrate-seeds
 ```
-_this command will create DB, runn migrations_ and create first admin user
 
+### Start node.js app in docker
 
 ```
 docker-compose up
 ```
-_this command will start node.js app in docker_
+
+# Running express server local
+
+### Enviroment
+
+Use .env file for enviroment variables.
+
+Example in .env.example file.
+
+### Running
+
+```
+npm run start
+```
