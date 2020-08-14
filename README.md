@@ -13,12 +13,14 @@ docker-compose build
 ```
 _this command will build a docker image of node.js app_
 
+
 _next step we should create database_
 
 ```
-docker-compose run jetbase-rails npm run seeds-dev
+docker-compose run jetbase-express-sql npm run migrate-seeds
 ```
 _this command will create DB, runn migrations_ and create first admin user
+
 
 ```
 docker-compose up
