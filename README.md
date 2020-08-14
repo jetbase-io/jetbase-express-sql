@@ -4,7 +4,7 @@
 
 Swagger API: https://raw.githubusercontent.com/jetbase-io/jetbase-swagger/master/swagger.yml
 
-# Running rails server in docker
+# Running express server in docker
 
 In order to start rails api inside of docker run the following commands
 
