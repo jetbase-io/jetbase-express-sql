@@ -11,6 +11,7 @@
     "seeds:undo": "sequelize-cli db:seed:undo",
     "migrate": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo:all",
+    "migrate-seeds": "sequelize-cli db:migrate && sequelize-cli db:seed --seed dev.js",
     "test": "NODE_ENV=test mocha --require  @babel/register tests/*/*.spec.test.js --timeout 700000 --exit",
     "lint": "./node_modules/.bin/eslint . --fix"
   },

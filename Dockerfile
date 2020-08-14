@@ -11,4 +11,4 @@ ENV DB_USER_DEV=postgres
 ENV DB_PASSWORD_DEV=postgres
 ENV DB_NAME_DEV=jetbase
 ENV DB_HOST_DEV=db
-CMD npm start
+CMD ["npm", "start"]
