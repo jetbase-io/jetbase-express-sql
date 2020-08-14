@@ -1,6 +1,6 @@
 # JetBase Express.js backend for Postgres
 
-[![Build Status](https://travis-ci.org/jetbase-io/jetbase-express-sql.svg?branch=development)](https://travis-ci.org/jetbase-io/jetbase-express-sql)
+[![Build Status](https://travis-ci.org/jetbase-io/jetbase-express-sql.svg?branch=test)](https://travis-ci.org/jetbase-io/jetbase-express-sql)
 
 Swagger API: https://raw.githubusercontent.com/jetbase-io/jetbase-swagger/master/swagger.yml
 
