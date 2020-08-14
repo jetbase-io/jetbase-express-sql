@@ -34,6 +34,12 @@ Use .env file for enviroment variables.
 
 Example in .env.example file.
 
+### Installing
+
+```
+npm install
+```
+
 ### Running
 
 ```
