@@ -12,6 +12,7 @@ import {
 } from '../controllers/users';
 import { createUserPayload, checkUsersValid, updateUserPayload } from '../middlewares/validators/users';
 import { getUserByIdMdw } from '../middlewares/getUserById';
+
 const router = express.Router();
 
 router.get('/', protect, authorize('admin'), getRegisteredUsers);

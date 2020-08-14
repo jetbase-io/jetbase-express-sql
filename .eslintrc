@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "it": false,
+    "describe": false,
+    "before": false
+  },
+  "rules": {
+    "no-console": "off",
+    "consistent-return": "off",
+    "camelcase": "off",
+    "import/prefer-default-export": "off",
+    "max-len": "off",
+    "prefer-destructuring": "off",
+    "import/no-dynamic-require": "off",
+    "global-require": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "no-shadow": "off"
+  }
+}

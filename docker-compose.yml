@@ -1,0 +1,18 @@
+version: '2.1'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=jetbase
+    ports:
+      - '5432'
+  jetbase-express-sql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - '5000:5000'

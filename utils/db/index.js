@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const Op = Sequelize.Op;
+const { Op } = Sequelize;
 
 export const findAllUsersQuery = ({ email, offset, limit }) => {
   let query = { attributes: ['id', 'first_name', 'last_name', 'email', ['roleId', 'role_id']] };

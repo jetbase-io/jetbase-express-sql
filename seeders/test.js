@@ -6,7 +6,7 @@ const roles = [
 ];
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     for (const role of roles) {
       await queryInterface.bulkInsert('roles', [
         {
@@ -31,10 +31,19 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        email: 'jetbaseuser@jetbase.com',
+        password,
+        first_name: 'User',
+        last_name: 'JetBase',
+        roleId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('users', null, {});
     await queryInterface.bulkDelete('roles', null, {});
   },

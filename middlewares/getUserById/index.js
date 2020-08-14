@@ -9,7 +9,6 @@ export const getUserByIdMdw = asyncHandler(async (req, res, next) => {
   if (!responseUser) {
     return next(new ErrorResponse(ErrorResponses.userNotFound, 404));
   }
-  const user = responseUser.get({ plain: true });
-  req.responseUser = user;
+  req.responseUser = responseUser;
   next();
 });

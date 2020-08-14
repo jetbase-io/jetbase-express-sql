@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '12.14.1'
+cache:
+directories:
+  - node_modules
+services:
+  - postgresql
+env:
+  - NODE_ENV=test PORT=3001 JWT_SECRET=secret DB_USER_TEST=postgres DB_PASSWORD_TEST=postgres DB_NAME_TEST=jetbase_test DB_HOST_TEST=127.0.0.1 JWT_EXPIRES=3600
+before_script:
+  - npm install
+  - psql -c 'create database jetbase_test;' -U postgres
+script:
+  - npm run migrate
+  - npm run seeds-test
+  - npm run lint
+  - npm run test

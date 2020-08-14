@@ -6,7 +6,7 @@ import { ErrorResponses } from '../configs/constants';
 import { bcryptHash } from '../utils/bcrypt';
 import { findAllUsersQuery } from '../utils/db';
 
-export const getRegisteredUsers = asyncHandler(async (req, res, next) => {
+export const getRegisteredUsers = asyncHandler(async (req, res) => {
   const { email, limit, offset } = req.query;
   const query = findAllUsersQuery({ email, limit, offset });
   const users = await User.findAll(query);
@@ -14,7 +14,9 @@ export const getRegisteredUsers = asyncHandler(async (req, res, next) => {
 });
 
 export const createUser = asyncHandler(async (req, res, next) => {
-  const { first_name, last_name, email, password, password_confirmation, role_id } = req.body;
+  const {
+    first_name, last_name, email, password, password_confirmation, role_id,
+  } = req.body;
   const candidate = await User.findOne({ where: { email } });
   if (candidate) {
     return next(new ErrorResponse(ErrorResponses.emailExist, 400));
@@ -33,14 +35,30 @@ export const createUser = asyncHandler(async (req, res, next) => {
   res.json({ id: newUser.id });
 });
 
-export const getCurrentUser = asyncHandler(async (req, res, next) => {
-  const { roleId: role_id, email, id, first_name, last_name } = req.user;
-  res.json({ id, role_id, email, first_name, last_name });
+export const getCurrentUser = asyncHandler(async (req, res) => {
+  const {
+    roleId: role_id, email, id, first_name, last_name,
+  } = req.user;
+  res.json({
+    id,
+    role_id,
+    email,
+    first_name,
+    last_name,
+  });
 });
 
-export const getUserById = asyncHandler(async (req, res, next) => {
-  const { id, first_name, last_name, roleId: role_id, email } = req.responseUser;
-  res.json({ id, email, last_name, first_name, role_id });
+export const getUserById = asyncHandler(async (req, res) => {
+  const {
+    id, first_name, last_name, roleId: role_id, email,
+  } = req.responseUser;
+  res.json({
+    id,
+    email,
+    last_name,
+    first_name,
+    role_id,
+  });
 });
 
 export const updateUser = asyncHandler(async (req, res, next) => {
@@ -50,18 +68,28 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   if (req.user.roleId === 2 && req.responseUser.id !== req.user.id) {
     return next(new ErrorResponse(ErrorResponses.updatePermission, 403));
   }
-  const { last_name, first_name, email, role_id: roleId } = req.body;
+  const {
+    last_name, first_name, email, role_id: roleId,
+  } = req.body;
   if (email) {
     const candidate = await User.findOne({ where: { email } });
     if (candidate) {
-      return next(new ErrorResponse(ErrorResponses.emailExist), 400);
+      return next(new ErrorResponse(ErrorResponses.emailExist, 400));
     }
   }
-  await User.update({ last_name, first_name, email, roleId }, { where: { id: req.responseUser.id } });
+  await User.update(
+    {
+      last_name,
+      first_name,
+      email,
+      roleId,
+    },
+    { where: { id: req.responseUser.id } },
+  );
   res.json({ success: true });
 });
 
-export const deleteUser = asyncHandler(async (req, res, next) => {
+export const deleteUser = asyncHandler(async (req, res) => {
   await req.responseUser.destroy();
   res.json({ success: true });
 });
