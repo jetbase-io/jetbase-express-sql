@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { getPermissionRoles } from '../../utils/roles';
 
 dotenv.config();
 
@@ -20,7 +19,7 @@ export const ErrorResponses = {
   loginError: 'Invalid email/password supplied.',
   serverError: 'Unexpected internal errors.',
   unathorized: 'User need to log in first.',
-  notPermission: roles => `User does not have permission of ${getPermissionRoles(roles)} role.`,
+  notPermission: 'Permission denied for this action.',
   emailExist: 'This email has already exist.',
   notMatchPasswords: 'Password and password confirmation do not match',
   isRequire: name => `${name} is require`,
@@ -30,4 +29,17 @@ export const ErrorResponses = {
   updatePasswordPermission:
     'The caller does not have permission to update the password of the user with given ID, or the old password in request body is not correct',
   oldPasswordEmpty: 'Old password is blank;',
+  invalidMinLength: 'Invalid min length',
+};
+
+export const SuccessResponses = {
+  delete: 'User successfully deleted.',
+  updateField: 'Updated user successfully.',
+  updatePassword: 'Updated password successfully',
+};
+
+export const Validation = {
+  passwordLength: 6,
+  lastNameLength: 2,
+  firstNameLength: 2,
 };

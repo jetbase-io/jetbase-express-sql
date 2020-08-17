@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user';
 import ErrorResponse from '../utils/errors';
-import { ErrorResponses } from '../configs/constants';
+import { ErrorResponses, SuccessResponses } from '../configs/constants';
 import { bcryptHash } from '../utils/bcrypt';
 import { findAllUsersQuery } from '../utils/db';
 
@@ -86,12 +86,12 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     },
     { where: { id: req.responseUser.id } },
   );
-  res.json({ success: true });
+  res.json({ message: SuccessResponses.updateField });
 });
 
 export const deleteUser = asyncHandler(async (req, res) => {
   await req.responseUser.destroy();
-  res.json({ success: true });
+  res.json({ message: SuccessResponses.delete });
 });
 
 export const updateUserPassword = asyncHandler(async (req, res, next) => {
@@ -111,5 +111,5 @@ export const updateUserPassword = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(ErrorResponses.loginError, 400));
     }
   }
-  res.json({ message: 'Updated password successfully.' });
+  res.json({ message: SuccessResponses.updatePassword });
 });
