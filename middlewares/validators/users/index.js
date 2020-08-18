@@ -1,22 +1,52 @@
 import { check, validationResult } from 'express-validator';
-import ErrorResponse from '../../../utils/errors';
-import { ErrorResponses } from '../../../configs/constants';
+import ErrorResponse, { generateErrorResultFromValidator } from '../../../utils/errors';
+import { Validation } from '../../../configs/constants';
+import { Messages } from '../../../locale/en';
+
+const {
+  errors: {
+    user: { password, first_name, last_name, email, new_password },
+  },
+} = Messages;
 
 export const createUserPayload = [
-  check('email', ErrorResponses.isRequire('Email')).not().isEmpty().isEmail(),
-  check('password', ErrorResponses.isRequire('Password')).not().isEmpty(),
-  check('first_name', ErrorResponses.isRequire('First name')).not().isEmpty(),
-  check('last_name', ErrorResponses.isRequire('Last name')).not().isEmpty(),
-  check('password_confirmation', ErrorResponses.isRequire('Password confirmation')).not().isEmpty(),
+  check('email', email.empty.message).not().isEmpty().isEmail().withMessage(email.type.message),
+  check('password', password.empty.message)
+    .not()
+    .isEmpty()
+    .isLength({ min: Validation.passwordLength })
+    .withMessage(password.length.message),
+  check('first_name', first_name.empty.message)
+    .not()
+    .isEmpty()
+    .isLength({ min: Validation.firstNameLength })
+    .withMessage(first_name.length.message),
+  check('last_name', last_name.empty.message)
+    .not()
+    .isEmpty()
+    .isLength({ min: Validation.lastNameLength })
+    .withMessage(last_name.length.message),
 ];
 
-export const updateUserPayload = [check('email', ErrorResponses.invalidEmail).optional().isEmail()];
+export const updateUserPayload = [
+  check('email').optional().isEmail().withMessage(email.type.message),
+  check('first_name').optional().isLength({ min: Validation.firstNameLength }).withMessage(first_name.length.message),
+  check('last_name').optional().isLength({ min: Validation.lastNameLength }).withMessage(last_name.length.message),
+];
+
+export const updatePasswordPayload = [
+  check('new_password')
+    .optional()
+    .isLength({ min: Validation.passwordLength })
+    .withMessage(new_password.length.message),
+];
 
 export const checkUsersValid = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const msg = errors.array().map(err => err.msg)[0];
-    return next(new ErrorResponse(msg, 400));
+    const errorObjects = errors.array();
+    const errorResult = generateErrorResultFromValidator(errorObjects, 'user');
+    return next(new ErrorResponse(JSON.stringify(errorResult), 400, 'formError'));
   }
   next();
 };

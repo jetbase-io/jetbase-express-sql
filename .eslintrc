@@ -16,6 +16,10 @@
     "global-require": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "newline-per-chained-call": "off",
+    "arrow-parens": "off",
+    "object-curly-newline": "off",
+    "comma-dangle": "off"
   }
 }
