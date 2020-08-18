@@ -10,10 +10,10 @@ export const errorHandler = (err, req, res, next) => {
 
   let errorObject;
 
-  if (error.errorType !== 'formError' || error.statusCode === 500) {
+  if (error.errorType !== 'formError') {
     errorObject = {
       error_key: error.error_key,
-      message: error.statusCode !== 500 ? error.message : 'Unexpected server error',
+      message: error.statusCode && error.statusCode !== 500 ? error.message : 'Unexpected internal errors.',
     };
   } else {
     const form_errors = generateFormError(error);
