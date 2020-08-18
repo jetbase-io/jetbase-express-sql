@@ -1,4 +1,3 @@
-import { ErrorResponses } from '../../configs/constants';
 import { generateFormError } from '../../utils/errors';
 
 /* eslint-disable no-unused-vars */
@@ -13,17 +12,23 @@ export const errorHandler = (err, req, res, next) => {
 
   if (error.errorType !== 'formError' || error.statusCode === 500) {
     errorObject = {
-      error_key: 'en',
-      message: error.statusCode !== 500 ? error.message : ErrorResponses.serverError,
+      error_key: error.error_key,
+      message: error.statusCode !== 500 ? error.message : 'Unexpected server error',
     };
   } else {
     const form_errors = generateFormError(error);
     errorObject = {
       message: '',
       error_object: {},
-      error_key: 'en',
+      error_key: '',
       form_errors,
     };
+
+    if (!errorObject.message) {
+      delete errorObject.message;
+      delete errorObject.error_key;
+    }
+    if (!Object.keys(errorObject.error_object).length) delete errorObject.error_object;
   }
 
   res.status(error.statusCode || 500).json(errorObject);
