@@ -17,7 +17,11 @@ export const generateFormError = (stringError = '', error_object = {}) => {
   parseError.forEach(errorItem => {
     const candidate = form_errors.find(item => errorItem.param === item.field_name);
     if (candidate) {
-      candidate.field_errors.push({ message: errorItem.msg, error_key: errorItem.error_key, error_object: {} });
+      let errObject = error_object;
+      if (!Object.keys(errObject).length) {
+        errObject = undefined;
+      }
+      candidate.field_errors.push({ message: errorItem.msg, error_key: errorItem.error_key, error_object: errObject });
     } else {
       const obj = {};
       obj.field_name = errorItem.param;
